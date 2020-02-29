@@ -6,8 +6,9 @@ import os
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-print(basedir)
+
 app = Flask(__name__)
+print(app.url_map)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' +os.path.join(basedir, 'db/db.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)

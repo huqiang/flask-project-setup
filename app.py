@@ -1,6 +1,7 @@
 
 from app import app, db
-from app.models import User, Report
+from app.models.user import User
+from app.models.report import Report
 
 
 @app.shell_context_processor

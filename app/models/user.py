@@ -8,6 +8,11 @@ class User(db.Model):
   password = db.Column(db.String(80), unique=True, nullable=False)
   role = db.Column(db.String(80), unique=True, nullable=False)
 
+  def __init__(self, username, password, role):
+    self.username = username
+    self.password = self.get_hashed_password(password)
+    self.role = role
+
   def insertUser(user):
     con = sql.connect("db/db.db")
     cur = con.cursor()
@@ -38,14 +43,14 @@ class User(db.Model):
       return True
     return False
 
-  def get_hashed_password(plain_text_password):
+  def get_hashed_password(self, plain_text_password):
     # Hash a password for the first time
     #   (Using bcrypt, the salt is saved into the hash itself)
     return bcrypt.hashpw(plain_text_password, bcrypt.gensalt())
 
-  def check_password(plain_text_password, hashed_password):
+  def check_password(self, plain_text_password):
     # Check hashed password. Using bcrypt, the salt is saved into the hash itself
-    return bcrypt.checkpw(plain_text_password, hashed_password)
+    return bcrypt.checkpw(plain_text_password, self.password)
 
   def serialize(self):
     return {"id": self.id,
